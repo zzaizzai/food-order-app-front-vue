@@ -1,26 +1,28 @@
 <template>
   <div>
-    <h2><strong>Its food view</strong></h2>
+    <h2><strong>Its History view</strong></h2>
   </div>
-  <div class="food-list-layout mx-auto">
-    <b-row class="">
-      <b-col v-for="(food, index) in foodList" cols="12" md="6" :key="index">
-        <FoodCard msg="good" :food="food" class="mx-1 my-1"></FoodCard>
-      </b-col>
-    </b-row>
+  <div class="container order-list-layout mx-auto">
+    <div v-for="(order, index) in orderList" cols="12" md="6" :key="index">
+      <b-row>
+        {{ order.id }} {{ order.food.name ?? "food name" }}
+        {{ order.status ?? "status" }}
+        {{ order.quantity ?? "quantity" }}
+        {{ order.totalPrice ?? "totalPrice" }}
+      </b-row>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import axios from "axios";
-import FoodCard from "@/components/FoodCard.vue"; // @ is an alias to /src
 
 export default defineComponent({
   name: "FoodView",
   data() {
     return {
-      foodList: [
+      orderList: [
         // {
         //   id: 1,
         //   price: 200,
@@ -45,34 +47,28 @@ export default defineComponent({
       ],
     };
   },
-  components: { FoodCard },
+  components: {},
   mounted() {
-    this.fetchFoodList()
+    this.fetchOrderList();
   },
   methods: {
-    async fetchFoodList() {
+    async fetchOrderList() {
       try {
-        const response = await axios.get("http://localhost:3000/foods/all");
-        console.log(response)
-        this.foodList = response.data
+        const response = await axios.get("http://localhost:3000/orders/all");
+        console.log(response);
+        this.orderList = response.data;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
-  }
+    },
+  },
 });
 </script>
 
 
 <style scoped>
-.food-list-layout {
+.order-list-layout {
   justify-content: center;
   width: 700px;
-}
-
-@media (max-width: 800px) {
-  .food-list-layout {
-    width: 350px;
-  }
 }
 </style>
