@@ -9,6 +9,9 @@
       </b-col>
     </b-row>
   </div>
+
+  <button>get more</button>
+  {{foodOldestId}}
 </template>
 
 <script lang="ts">
@@ -20,6 +23,7 @@ export default defineComponent({
   name: "FoodView",
   data() {
     return {
+      foodOldestId: -1,
       foodList: [
         // {
         //   id: 1,
@@ -47,19 +51,36 @@ export default defineComponent({
   },
   components: { FoodCard },
   mounted() {
-    this.fetchFoodList()
+    this.fetchFoodList();
   },
   methods: {
     async fetchFoodList() {
       try {
-        const response = await axios.get("http://localhost:3000/foods/all");
-        console.log(response)
-        this.foodList = response.data
+        const response = await axios.get(
+          "http://localhost:3000/foods/getNew?take=6"
+        );
+        console.log(response);
+        const foods = response.data;
+        this.foodList = foods;
+
+        let minValueId = -1;
+        for (let food of foods) {
+          if (minValueId < 0) {
+            minValueId = food.id;
+            continue;
+          }
+          if (minValueId < food.id) {
+            continue;
+          }
+          minValueId = food.id;
+        }
+        this.foodOldestId = minValueId
+
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
-  }
+    },
+  },
 });
 </script>
 
