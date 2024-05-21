@@ -19,6 +19,7 @@ import { defineComponent } from "vue";
 import axios from "axios";
 import FoodCard from "@/components/FoodCard.vue"; // @ is an alias to /src
 
+
 export default defineComponent({
   name: "FoodView",
   data() {
