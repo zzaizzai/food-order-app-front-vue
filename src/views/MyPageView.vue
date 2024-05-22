@@ -1,8 +1,7 @@
 <template>
-  <b-row> <div>LoginPage</div></b-row>
-  <b-row><b-col><input type="text" v-model="username" /></b-col></b-row>
-  <b-row><b-col><input type="text" v-model="password" /></b-col></b-row>
-  <b-row><b-col><b-button variant="success" @click="login">login</b-button></b-col></b-row>
+  <div>
+    {{ accessToken }}
+  </div>
 </template>
 
 <script lang="ts">
@@ -16,9 +15,9 @@ export default defineComponent({
     return {
       username: "",
       password: "",
+      accessToken: store.state.loginStore.accessToken
     };
   },
-  components: {},
   methods: {
     async login() {
       store.dispatch("login", {
