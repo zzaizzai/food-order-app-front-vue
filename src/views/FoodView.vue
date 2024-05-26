@@ -4,21 +4,21 @@
   </div>
   <div class="food-list-layout mx-auto">
     <b-row class="">
-      <b-col v-for="(food, index) in foodList" cols="12" md="6" :key="index">
-        <FoodCard msg="good" :food="food" class="mx-1 my-1"></FoodCard>
+      <b-col v-for="food in foodList" cols="12" md="6" :key="food.id">
+        <FoodCard :food="food" class="mx-1 my-1"></FoodCard>
       </b-col>
     </b-row>
   </div>
 
-  <button>get more</button>
-  {{foodOldestId}}
+  <b-button @click="updateFoods">get more</b-button>
+  {{ foodOldestId }}
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import axios from "axios";
 import FoodCard from "@/components/FoodCard.vue"; // @ is an alias to /src
-
+import { getFoods } from "@/api/foods";
+import Food from "@/interfaces/Food"
 
 export default defineComponent({
   name: "FoodView",
@@ -47,7 +47,7 @@ export default defineComponent({
         //   store: "sushiro",
         //   description: "raw fish",
         // },
-      ],
+      ] as Food[],
     };
   },
   components: { FoodCard },
@@ -57,10 +57,7 @@ export default defineComponent({
   methods: {
     async fetchFoodList() {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/foods/getNew?take=6"
-        );
-        console.log(response);
+        const response = await getFoods(6, this.foodOldestId);
         const foods = response.data;
         this.foodList = foods;
 
@@ -75,8 +72,36 @@ export default defineComponent({
           }
           minValueId = food.id;
         }
-        this.foodOldestId = minValueId
+        this.foodOldestId = minValueId;
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
+    async updateFoods() {
+      // no more data
+      if (this.foodOldestId < 0) {
+        return;
+      }
+
+      try {
+        const response = await getFoods(6, this.foodOldestId);
+        const foods: Food[] = response.data;
+
+        this.foodList = [...this.foodList, ...foods];
+
+        let minValueId = -1;
+        for (let food of foods) {
+          if (minValueId < 0) {
+            minValueId = food.id;
+            continue;
+          }
+          if (minValueId < food.id) {
+            continue;
+          }
+          minValueId = food.id;
+        }
+        this.foodOldestId = minValueId;
       } catch (error) {
         console.log(error);
       }

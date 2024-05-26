@@ -38,25 +38,19 @@
     >
     <b-row>
       <strong
-        >Total Price: <sapn>{{ totalPrice }}</sapn>
+        >Total Price: <span>{{ totalPrice }}</span>
         <span> ({{ food.price }})</span></strong
       ></b-row
     >
-
-    <span><strong class="msgCard">{{ msgCard }}</strong></span>
+    <span
+      ><strong class="msgCard">{{ msgCard }}</strong></span
+    >
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
-interface Food {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
-  store: string;
-}
+import Food from "@/interfaces/Food"
 
 export default defineComponent({
   name: "FoodCard",
@@ -96,6 +90,10 @@ export default defineComponent({
       setTimeout(() => {
         this.qty = 1;
         this.orderStateIng = false;
+        this.msgCard = "Done!!";
+        setTimeout(() => {
+          this.msgCard = "";
+        }, 2000);
       }, 1000);
     },
   },
@@ -116,8 +114,8 @@ export default defineComponent({
   transition: background-color 0.5s;
 }
 
-.msgCard{
-    color: red;
+.msgCard {
+  color: red;
 }
 
 .foodcard {
