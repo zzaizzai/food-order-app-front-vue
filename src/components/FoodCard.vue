@@ -105,11 +105,13 @@ export default defineComponent({
         return;
       }
 
-      this.qty = 1;
-      this.orderStateIng = false;
-      this.msgCard = "Done!!";
       setTimeout(() => {
-        this.msgCard = "";
+        this.qty = 1;
+        this.orderStateIng = false;
+        this.msgCard = "Done!!";
+        setTimeout(() => {
+          this.msgCard = "";
+        }, 2000);
       }, 2000);
     },
   },
