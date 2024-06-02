@@ -50,7 +50,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Food from "@/interfaces/Food"
+import Food from "@/interfaces/Food";
+import { OrderCreateDto } from "@/interfaces/Order";
+import * as apiOrders from "@/api/orders";
 
 export default defineComponent({
   name: "FoodCard",
@@ -77,7 +79,7 @@ export default defineComponent({
         this.qty--;
       }
     },
-    orderFood(): void {
+    async orderFood(): Promise<void> {
       this.msgCard = "";
 
       if (this.qty < 1) {
@@ -87,14 +89,28 @@ export default defineComponent({
 
       this.orderStateIng = true;
 
+      const order = {
+        foodId: this.food.id,
+        userId: 6,
+        quantity: this.qty,
+        totalPrice: this.totalPrice,
+      };
+
+      try {
+        const response = await apiOrders.addOne(order);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error while sending order data:", error);
+        this.msgCard = "Error !!!";
+        return;
+      }
+
+      this.qty = 1;
+      this.orderStateIng = false;
+      this.msgCard = "Done!!";
       setTimeout(() => {
-        this.qty = 1;
-        this.orderStateIng = false;
-        this.msgCard = "Done!!";
-        setTimeout(() => {
-          this.msgCard = "";
-        }, 2000);
-      }, 1000);
+        this.msgCard = "";
+      }, 2000);
     },
   },
   computed: {

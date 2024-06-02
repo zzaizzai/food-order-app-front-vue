@@ -19,7 +19,7 @@
 import { defineComponent } from "vue";
 import * as apiOrders from "@/api/orders";
 import { Order, OrderTable } from "@/interfaces/Order";
-
+import { formatDisplayDate } from "@/utils/formatDate";
 export default defineComponent({
   name: "FoodView",
   data() {
@@ -30,6 +30,7 @@ export default defineComponent({
         { key: "status", label: "Status" },
         { key: "quantity", label: "Quantity" },
         { key: "totalPrice", label: "Total Price ($)" },
+        { key: "createdAt", label: "createdAt" },
       ],
       formattedOrderList: [] as OrderTable[],
       orderList: [
@@ -76,6 +77,7 @@ export default defineComponent({
             status: order.status || "status",
             quantity: order.quantity || 0,
             totalPrice: order.totalPrice || 0,
+            createdAt: formatDisplayDate(order.createdAt) || "no date",
           });
         });
       } catch (error) {
