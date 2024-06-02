@@ -5,7 +5,7 @@
   <div class="container order-list-layout mx-auto">
     <div v-for="(order, index) in orderList" cols="12" md="6" :key="index">
       <b-row>
-        {{ order.id }} {{ order.food.name ?? "food name" }}
+        {{ order.id }} {{ order.food?.name ?? "food name" }}
         {{ order.status ?? "status" }}
         {{ order.quantity ?? "quantity" }}
         {{ order.totalPrice ?? "totalPrice" }}
@@ -16,7 +16,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import axios from "axios";
+import * as apiOrders from "@/api/orders";
+
 
 export default defineComponent({
   name: "FoodView",
@@ -54,8 +55,8 @@ export default defineComponent({
   methods: {
     async fetchOrderList() {
       try {
-        const response = await axios.get("http://localhost:3000/orders/all");
-        console.log(response);
+        const response = await apiOrders.getOrdersAll()
+        console.log(response.data)
         this.orderList = response.data;
       } catch (error) {
         console.log(error);

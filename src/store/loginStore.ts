@@ -1,4 +1,4 @@
-import { createStore, Module } from 'vuex'
+import { Module } from 'vuex'
 import * as authApi from "@/api/auth";
 import { RootState } from '.';
 

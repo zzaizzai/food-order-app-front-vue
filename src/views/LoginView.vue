@@ -7,7 +7,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import * as authApi from "@/api/auth";
 import store from "@/store";
 
 export default defineComponent({

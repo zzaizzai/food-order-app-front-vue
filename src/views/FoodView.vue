@@ -17,8 +17,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import FoodCard from "@/components/FoodCard.vue"; // @ is an alias to /src
-import { getFoods } from "@/api/foods";
-import Food from "@/interfaces/Food"
+import * as apiFoods from "@/api/foods";
+import Food from "@/interfaces/Food";
 
 export default defineComponent({
   name: "FoodView",
@@ -57,7 +57,7 @@ export default defineComponent({
   methods: {
     async fetchFoodList() {
       try {
-        const response = await getFoods(6, this.foodOldestId);
+        const response = await apiFoods.getFoods(6, this.foodOldestId);
         const foods = response.data;
         this.foodList = foods;
 
@@ -85,7 +85,7 @@ export default defineComponent({
       }
 
       try {
-        const response = await getFoods(6, this.foodOldestId);
+        const response = await apiFoods.getFoods(6, this.foodOldestId);
         const foods: Food[] = response.data;
 
         this.foodList = [...this.foodList, ...foods];
