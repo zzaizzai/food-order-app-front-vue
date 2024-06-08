@@ -1,57 +1,58 @@
 <template>
   <div class="foodcard">
     <b-row>
-      <b-col cols="10"
+      <b-col cols="12"
         ><h4>
           <strong>{{ food.name }}</strong>
         </h4></b-col
       >
-      <b-col cols="2"><b-button pill>X</b-button> </b-col>
+      <!-- <b-col cols="2"><b-button pill>X</b-button> </b-col> -->
     </b-row>
-    <b-row>
-      {{ food.description }}
-      Content Content ContentContent ContentContentContent Content Content
-      Content</b-row
-    >
-    <b-row>
-      <b-col cols="4">Qty.</b-col>
-      <b-col cols="2"
-        ><input style="width: 48px" type="number" v-model="qty"
-      /></b-col>
-      <b-col cols="1"
-        ><b-button variant="warning" @click="decrementQty">-</b-button></b-col
+    <b-container>
+      <b-row>
+        {{ food.description }}
+        Content Content Content Content Content Content Content Content Content
+        Content
+      </b-row>
+      <b-row>
+        <b-col cols="1">Qty.</b-col>
+        <b-col cols="3"
+          ><b-form-input style="width: 48px" type="number" v-model="qty"
+        /></b-col>
+        <b-col cols="4"
+          ><b-button variant="warning mx-1" @click="decrementQty">-</b-button>
+          <b-button variant="warning mx-1" @click="incrementQty">+</b-button>
+          </b-col
+        >
+        <b-col cols="3"
+          ><b-button
+            :variant="buttonVariant"
+            class="button-color-transition"
+            @click="orderFood"
+            >{{ buttonText }}</b-button
+          ></b-col
+        >
+      </b-row>
+
+      <b-row
+        ><span>store:{{ food.store ?? "store" }}</span></b-row
       >
-      <b-col cols="1"
-        ><b-button variant="warning" @click="incrementQty">+</b-button></b-col
+      <b-row>
+        <strong
+          >Total Price: <span>{{ totalPrice }}</span>
+          <span> ({{ food.price }})</span></strong
+        ></b-row
       >
-      <b-col cols="4"
-        ><b-button
-          :variant="buttonVariant"
-          class="button-color-transition"
-          @click="orderFood"
-          >Order</b-button
-        ></b-col
+      <span
+        ><strong class="msgCard">{{ msgCard }}</strong></span
       >
-    </b-row>
-    <b-row
-      ><span>store:{{ food.store }}</span></b-row
-    >
-    <b-row>
-      <strong
-        >Total Price: <span>{{ totalPrice }}</span>
-        <span> ({{ food.price }})</span></strong
-      ></b-row
-    >
-    <span
-      ><strong class="msgCard">{{ msgCard }}</strong></span
-    >
+    </b-container>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import Food from "@/interfaces/Food";
-import { OrderCreateDto } from "@/interfaces/Order";
 import * as apiOrders from "@/api/orders";
 
 export default defineComponent({
@@ -67,7 +68,7 @@ export default defineComponent({
     return {
       msgCard: "",
       qty: 1,
-      orderStateIng: false,
+      isOrdering: false,
     };
   },
   methods: {
@@ -87,7 +88,7 @@ export default defineComponent({
         return;
       }
 
-      this.orderStateIng = true;
+      this.isOrdering = true;
 
       const order = {
         foodId: this.food.id,
@@ -107,7 +108,7 @@ export default defineComponent({
 
       setTimeout(() => {
         this.qty = 1;
-        this.orderStateIng = false;
+        this.isOrdering = false;
         this.msgCard = "Done!!";
         setTimeout(() => {
           this.msgCard = "";
@@ -117,7 +118,10 @@ export default defineComponent({
   },
   computed: {
     buttonVariant(): string {
-      return this.orderStateIng ? "warning" : "success";
+      return this.isOrdering ? "warning" : "success";
+    },
+    buttonText(): string {
+      return this.isOrdering ? "Ordering" : "Order";
     },
     totalPrice(): number {
       return this.food.price * this.qty;

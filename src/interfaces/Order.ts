@@ -1,20 +1,19 @@
 import Food from "./Food"
 
-export interface Order {
+interface OrderBase {
     id: number
-    food: Food
     status: string
     quantity: number
     totalPrice: number
+}
+
+export interface Order extends OrderBase {
+    food: Food
     createdAt: Date
 }
 
-export interface OrderTable {
-    id: number
+export interface OrderTable extends OrderBase {
     foodName: string
-    status: string
-    quantity: number
-    totalPrice: number
     createdAt: string
 }
 
