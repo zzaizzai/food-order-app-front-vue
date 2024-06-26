@@ -5,25 +5,36 @@ import { RootState } from '.';
 
 export type AuthState = {
     accessToken: string | null;
+    username: string | null;
 };
 
 
 const loginStore: Module<AuthState, RootState> = {
     state: {
-        accessToken: null
+        accessToken: null,
+        username: null
     },
     getters: {
         isAuthenticated(state) {
             return state.accessToken !== null;
         },
+        getUsername(state) {
+            return state.username
+        }
     },
     mutations: {
         setToken(state, accessToken) {
             state.accessToken = accessToken;
         },
+        setUsername(state, username) {
+            state.username = username
+        },
         clearToken(state) {
             state.accessToken = null;
         },
+        clearUsername(state) {
+            state.username = null;
+        }
     },
     actions: {
         // Consider creating a separate login action for reusability
@@ -33,6 +44,7 @@ const loginStore: Module<AuthState, RootState> = {
                 const accessToken = response.data.accessToken;
                 console.log("accessToken:", accessToken)
                 commit('setToken', accessToken);
+                commit('setUsername', username);
             } catch (error: any) {
                 if (error.response) {
                     console.error('Error response data:', error.response.data);
@@ -48,7 +60,9 @@ const loginStore: Module<AuthState, RootState> = {
         },
         logout({ commit }) {
             commit('clearToken');
+            commit('clearUsername');
             console.log('clear token')
+            console.log('clear Username')
         },
         signup({ commit }, { username, password }) {
             try {
