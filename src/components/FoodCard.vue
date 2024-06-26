@@ -103,6 +103,11 @@ export default defineComponent({
       } catch (error) {
         console.error("Error while sending order data:", error);
         this.msgCard = "Error !!!";
+
+        setTimeout(() => {
+          this.msgCard = ""
+          this.isOrdering = false
+        }, 2000);
         return;
       }
 
@@ -132,6 +137,14 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+/* hide spin button */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .button-color-transition {
   transition: background-color 0.5s;
 }

@@ -50,6 +50,15 @@ const loginStore: Module<AuthState, RootState> = {
             commit('clearToken');
             console.log('clear token')
         },
+        signup({ commit }, { username, password }) {
+            try {
+                const res = authApi.signup(username, password)
+            } catch (error: any) {
+                if (error.response) {
+                    console.error('Error message:', error.message);
+                }
+            }
+        }
     },
     modules: {
     }

@@ -8,3 +8,11 @@ export async function login(username: string, password: string) {
 
     
 }
+
+
+export async function signup(username: string, password: string) {
+    return http.post('/auth/signup', {
+        username,
+        password
+    })
+}
