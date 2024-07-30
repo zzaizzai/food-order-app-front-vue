@@ -2,8 +2,11 @@ import axios from "axios";
 import store from "@/store";
 
 
+// dynamic config
+const host = window.location.host;
+
 const instance = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: `http://${host}/api`,
     headers: {
         'Content-Type': 'application/json'
     }
