@@ -5,6 +5,7 @@ import OrderHistoryView from '../views/OrderView.vue'
 import LoginView from '../views/LoginView.vue'
 import SignUpView from '../views/SignUpView.vue'
 import MyPageView from '../views/MyPageView.vue'
+import FoodAddView from '../views/FoodAddView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -16,6 +17,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/food',
     name: 'food',
     component: FoodView
+  },
+  {
+    path: '/foodadd',
+    name: 'foodadd',
+    component: FoodAddView
   },
   {
     path: '/login',
