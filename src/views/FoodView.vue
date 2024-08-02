@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2><strong>Its food view</strong></h2>
+    <b-button href="/foodadd">Add Food</b-button>
   </div>
   <div class="food-list-layout mx-auto">
     <b-row class="">
@@ -18,7 +19,7 @@
 import { defineComponent } from "vue";
 import FoodCard from "@/components/FoodCard.vue"; // @ is an alias to /src
 import * as apiFoods from "@/api/foods";
-import Food from "@/interfaces/Food";
+import { Food } from "@/interfaces/Food";
 
 export default defineComponent({
   name: "FoodView",

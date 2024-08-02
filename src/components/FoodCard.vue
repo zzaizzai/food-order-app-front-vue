@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Food from "@/interfaces/Food";
+import { Food } from "@/interfaces/Food";
 import * as apiOrders from "@/api/orders";
 
 export default defineComponent({
