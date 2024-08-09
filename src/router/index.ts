@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import FoodView from '../views/FoodView.vue'
-import OrderHistoryView from '../views/OrderView.vue'
-import LoginView from '../views/LoginView.vue'
-import SignUpView from '../views/SignUpView.vue'
-import MyPageView from '../views/MyPageView.vue'
-import FoodAddView from '../views/FoodAddView.vue'
+import HomeView from '@/views/HomeView.vue'
+import FoodView from '@/views/FoodView.vue'
+import OrderHistoryView from '@/views/OrderView.vue'
+import LoginView from '@/views/LoginView.vue'
+import SignUpView from '@/views/SignUpView.vue'
+import MyPageView from '@/views/MyPageView.vue'
+import FoodAddView from '@/views/Food/FoodAddView.vue'
+
 
 const routes: Array<RouteRecordRaw> = [
   {
