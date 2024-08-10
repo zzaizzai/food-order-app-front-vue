@@ -4,6 +4,8 @@ export interface Food {
   price: number;
   description: string;
   store: string;
+  createdAt: string;
+  category: string;
 }
 
 export interface FoodCreateDto {

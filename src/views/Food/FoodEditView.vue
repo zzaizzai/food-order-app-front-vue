@@ -1,7 +1,7 @@
 <template>
 	<b-container>
 		<b-row>
-			<div>Food Add View</div>
+			<div>Food Edit View</div>
 		</b-row>
 		<b-row class="justify-content-center"><b-col sm="3"><b-form-input placeholder="Food Name" type="text"
 					v-model="foodData.name" /></b-col></b-row>
@@ -14,14 +14,14 @@
 		<b-row class="justify-content-center"><b-col><b-button class="button-color-transition" :variant="buttonVariant"
 					@click="updateFood">{{ buttonText }}</b-button></b-col></b-row>
 	</b-container>
-	<strong>{{ msg }}</strong>
+	<strong><span :class="msgVariant">{{ msg }}</span></strong>
 </template>
 
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import * as foodApi from "@/api/foods";
-import { FoodCreateDto } from "@/interfaces/Food";
+import { Food, FoodCreateDto } from "@/interfaces/Food";
 
 export default defineComponent({
 	name: "FoodAddView",
@@ -29,12 +29,9 @@ export default defineComponent({
 		return {
 			isAdding: false,
 			msg: "",
-			store: "",
-			foodname: "",
-			category: "",
-			price: 0,
+			isMsgError: false,
 			foodId: "",
-			foodData: {},
+			foodData: {} as Food,
 		};
 	},
 	async created() {
@@ -53,19 +50,26 @@ export default defineComponent({
 			};
 		} catch (error) {
 			console.log(error);
+			this.onErrorMode()
 			this.msg = "Failed to get Food Information";
 		}
 	},
 	methods: {
+		onErrorMode():void {
+			this.isMsgError = true
+		},
+		offtErrorMode(): void {
+			this.isMsgError = false
+		},
 		getFoodInformation(foodId: number) {
 			const food = foodApi.getOneFood(foodId);
 			return food;
 		},
 		resetAllInput(): void {
-			this.foodname = "";
-			this.store = "";
-			this.category = "";
-			this.price = 0;
+			this.foodData.name = "";
+			this.foodData.store = "";
+			this.foodData.category = "";
+			this.foodData.price = 0;
 		},
 
 		async updateFood(): Promise<void> {
@@ -74,89 +78,57 @@ export default defineComponent({
 			this.isAdding = false;
 
 			// check
-			if (this.store === "" || this.foodname === "" || this.category === "") {
+			if (this.foodData.store === "" || this.foodData.name === "" || this.foodData.category === "") {
 				this.msg = "input error";
 				return;
 			}
 
-			const newFood: FoodCreateDto = {
-				name: this.foodname,
-				store: this.store,
-				category: this.category,
-				price: this.price,
-				description: "",
+			const newFood: Food = {
+				id: this.foodData.id,
+				name: this.foodData.name,
+				store: this.foodData.store,
+				category: this.foodData.category,
+				price: this.foodData.price,
+				createdAt: this.foodData.createdAt,
+				description: "it is description that explains what food is or tastes"
 			};
 			this.isAdding = true;
 
-			// try {
-			// const result = await foodApi.addFood(newFood);
-			// console.log(result);
+			try {
+			const result = await foodApi.updateOneFood(newFood);
+			console.log(result);
 
-			// } catch (error) {
-			//   console.log("Error", error);
-			// }
+			} catch (error) {
+				console.log("Error", error);
+			}
 
 			// Effect
 			setTimeout(() => {
 				this.isAdding = false;
 				this.msg = "Added a new Food successfully.";
-				this.resetAllInput();
+				// this.resetAllInput();
+				this.offtErrorMode();
 			}, 2000);
 		},
 	},
 	computed: {
+		msgVariant(): string {
+			return this.isMsgError ? "msg-error" : "";
+		},
 		buttonVariant(): string {
 			return this.isAdding ? "warning" : "success";
 		},
 		buttonText(): string {
-			return this.isAdding ? "Adding" : "Add";
+			return this.isAdding ? "Editing" : "Edit";
 		},
 	},
 });
 </script>
 
 
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* hide spin button */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
-}
-
-.button-color-transition {
-	transition: background-color 0.5s;
-}
-
-.msgCard {
+.msg-error {
 	color: red;
-}
-
-.foodcard {
-	padding: 5px;
-	background: #eee;
-	border-radius: 16px;
-	height: 200px;
-	width: 350px;
-}
-
-h3 {
-	margin: 40px 0 0;
-}
-
-ul {
-	list-style-type: none;
-	padding: 0;
-}
-
-li {
-	display: inline-block;
-	margin: 0 10px;
-}
-
-a {
-	color: #42b983;
 }
 </style>

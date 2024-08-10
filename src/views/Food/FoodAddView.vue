@@ -94,44 +94,6 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* hide spin button */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
 
-.button-color-transition {
-    transition: background-color 0.5s;
-}
 
-.msgCard {
-    color: red;
-}
-
-.foodcard {
-    padding: 5px;
-    background: #eee;
-    border-radius: 16px;
-    height: 200px;
-    width: 350px;
-}
-
-h3 {
-    margin: 40px 0 0;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    display: inline-block;
-    margin: 0 10px;
-}
-
-a {
-    color: #42b983;
-}
 </style>
