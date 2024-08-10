@@ -1,18 +1,36 @@
 <template>
 	<b-container>
 		<b-row>
-			<div>Food Edit View</div>
+			<div><h3>Food Edit View</h3></div>
 		</b-row>
-		<b-row class="justify-content-center"><b-col sm="3"><b-form-input placeholder="Food Name" type="text"
-					v-model="foodData.name" /></b-col></b-row>
-		<b-row class="justify-content-center"><b-col sm="3"><b-form-input placeholder="Store Name" type="text"
-					v-model="foodData.store" /></b-col></b-row>
-		<b-row class="justify-content-center"><b-col sm="3"><b-form-input placeholder="Price" type="number"
-					v-model="foodData.price" /></b-col></b-row>
-		<b-row class="justify-content-center"><b-col sm="3"><b-form-input placeholder="Category" type="text"
+
+		<b-row class="justify-content-center">
+			<b-col sm="2"><label><strong>name</strong></label></b-col>
+			<b-col sm="5"><b-form-input placeholder="Food Name" type="text" v-model="foodData.name" /></b-col>
+		</b-row>
+
+		<b-row class="justify-content-center">
+			<b-col sm="2"><label><strong>store</strong></label></b-col><b-col sm="5"><b-form-input
+					placeholder="Store Name" type="text" v-model="foodData.store" /></b-col>
+		</b-row>
+
+		<b-row class="justify-content-center">
+			<b-col sm="2"><label><strong>price</strong></label></b-col>
+			<b-col sm="5"><b-form-input placeholder="Price" type="number" v-model="foodData.price" /></b-col></b-row>
+
+		<b-row class="justify-content-center">
+			<b-col sm="2"><label><strong>category</strong></label></b-col>
+			<b-col sm="5"><b-form-input placeholder="Category" type="text"
 					v-model="foodData.category" /></b-col></b-row>
-		<b-row class="justify-content-center"><b-col><b-button class="button-color-transition" :variant="buttonVariant"
-					@click="updateFood">{{ buttonText }}</b-button></b-col></b-row>
+
+		<b-row class="justify-content-center">
+			<b-col sm="2"><label><strong>description</strong></label></b-col>
+			<b-col sm="5"><b-form-textarea placeholder="Description" type="text"
+					v-model="foodData.description" /></b-col></b-row>
+
+		<b-row class="justify-content-center">
+			<b-col><b-button class="button-color-transition" :variant="buttonVariant" @click="updateFood">{{ buttonText
+					}}</b-button></b-col></b-row>
 	</b-container>
 	<strong><span :class="msgVariant">{{ msg }}</span></strong>
 </template>
@@ -55,7 +73,7 @@ export default defineComponent({
 		}
 	},
 	methods: {
-		onErrorMode():void {
+		onErrorMode(): void {
 			this.isMsgError = true
 		},
 		offtErrorMode(): void {
@@ -90,13 +108,13 @@ export default defineComponent({
 				category: this.foodData.category,
 				price: this.foodData.price,
 				createdAt: this.foodData.createdAt,
-				description: "it is description that explains what food is or tastes"
+				description: this.foodData.description
 			};
 			this.isAdding = true;
 
 			try {
-			const result = await foodApi.updateOneFood(newFood);
-			console.log(result);
+				const result = await foodApi.updateOneFood(newFood);
+				console.log(result);
 
 			} catch (error) {
 				console.log("Error", error);

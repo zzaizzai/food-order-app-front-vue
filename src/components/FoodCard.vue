@@ -1,18 +1,20 @@
 <template>
     <div class="foodcard">
         <b-row>
-            <b-col cols="12">
+            <b-col cols="10">
                 <h4>
                     <strong>{{ food.name }}</strong>
                 </h4>
+
             </b-col>
+            <b-col cols="2"><a :href="`/foodedit?foodId=${food.id}`">Edit</a></b-col>
             <!-- <b-col cols="2"><b-button pill>X</b-button> </b-col> -->
         </b-row>
         <b-container>
+            
             <b-row>
-                {{ food.description }}
-                Content Content Content Content Content Content Content Content Content
-                Content
+                {{ food.description ?? "Content Content Content Content Content Content Content Content Content Content" }}
+
             </b-row>
             <b-row>
                 <b-col cols="1">Qty.</b-col>
