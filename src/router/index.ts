@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import FoodView from '@/views/FoodView.vue'
+import FoodView from '@/views/Food/FoodView.vue'
 import OrderHistoryView from '@/views/OrderView.vue'
 import LoginView from '@/views/LoginView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import MyPageView from '@/views/MyPageView.vue'
 import FoodAddView from '@/views/Food/FoodAddView.vue'
+import FoodEditView from '@/views/Food/FoodEditView.vue'
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -23,6 +24,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/foodadd',
     name: 'foodadd',
     component: FoodAddView
+  },
+  {
+    path: '/foodedit',
+    name: 'foodedit',
+    component: FoodEditView
   },
   {
     path: '/login',
