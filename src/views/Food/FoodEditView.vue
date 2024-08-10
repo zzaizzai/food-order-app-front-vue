@@ -1,7 +1,9 @@
 <template>
 	<b-container>
 		<b-row>
-			<div><h3>Food Edit View</h3></div>
+			<div>
+				<h3>Food Edit View</h3>
+			</div>
 		</b-row>
 
 		<b-row class="justify-content-center">
@@ -28,9 +30,40 @@
 			<b-col sm="5"><b-form-textarea placeholder="Description" type="text"
 					v-model="foodData.description" /></b-col></b-row>
 
+		<br>
+		<br>
+
+		<!-- Edit Button -->
 		<b-row class="justify-content-center">
-			<b-col><b-button class="button-color-transition" :variant="buttonVariant" @click="updateFood">{{ buttonText
-					}}</b-button></b-col></b-row>
+			<b-col sm="2">
+
+				<!-- Loading -->
+				<b-button v-if="isAdding" variant="success" @click="updateFood" disabled>
+					<b-spinner small></b-spinner>
+					<span>Edit</span>
+				</b-button>
+
+				<!-- Default Button -->
+				<b-button v-else variant="success" @click="updateFood">Edit</b-button>
+
+			</b-col>
+
+			<b-col sm="4">
+
+				<!-- Default Button -->
+				<b-button variant="danger" @click="deleteFood">
+					<span>Delete</span>
+				</b-button>
+
+			</b-col>
+
+		</b-row>
+
+		<!-- Delete Button -->
+		<b-row class="justify-content-center">
+
+		</b-row>
+
 	</b-container>
 	<strong><span :class="msgVariant">{{ msg }}</span></strong>
 </template>
@@ -73,6 +106,14 @@ export default defineComponent({
 		}
 	},
 	methods: {
+		deleteFood(): void {
+			console.log("")
+			if (confirm("Do you want to delete this food") == true) {
+				this.msg = "ok"
+			} else {
+				return;
+			}
+		},
 		onErrorMode(): void {
 			this.isMsgError = true
 		},
@@ -133,12 +174,12 @@ export default defineComponent({
 		msgVariant(): string {
 			return this.isMsgError ? "msg-error" : "";
 		},
-		buttonVariant(): string {
-			return this.isAdding ? "warning" : "success";
-		},
-		buttonText(): string {
-			return this.isAdding ? "Editing" : "Edit";
-		},
+		// buttonVariant(): string {
+		// 	return this.isAdding ? "warning" : "success";
+		// },
+		// buttonText(): string {
+		// 	return this.isAdding ? "Editing" : "Edit";
+		// },
 	},
 });
 </script>

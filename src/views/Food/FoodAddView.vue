@@ -3,14 +3,27 @@
         <b-row>
             <div>Food Add View</div>
         </b-row>
-        <b-row class="justify-content-center"><b-col sm="3"><b-form-input placeholder="Food Name" type="text"
-                    v-model="foodname" /></b-col></b-row>
-        <b-row class="justify-content-center"><b-col sm="3"><b-form-input placeholder="Store Name" type="text"
-                    v-model="store" /></b-col></b-row>
-        <b-row class="justify-content-center"><b-col sm="3"><b-form-input placeholder="Price" type="number"
-                    v-model="price" /></b-col></b-row>
-        <b-row class="justify-content-center"><b-col sm="3"><b-form-input placeholder="Category" type="text"
-                    v-model="category" /></b-col></b-row>
+
+        <b-row class="justify-content-center">
+            <b-col sm="2"><label><strong>name</strong></label></b-col>
+            <b-col sm="5"><b-form-input placeholder="Food Name" type="text" v-model="foodname" /></b-col>
+        </b-row>
+
+        <b-row class="justify-content-center">
+            <b-col sm="2"><label><strong>store</strong></label></b-col><b-col sm="5"><b-form-input
+                    placeholder="Store Name" type="text" v-model="store" /></b-col>
+        </b-row>
+
+        <b-row class="justify-content-center">
+            <b-col sm="2"><label><strong>price</strong></label></b-col>
+            <b-col sm="5"><b-form-input placeholder="Price" type="number" v-model="price" /></b-col>
+        </b-row>
+
+        <b-row class="justify-content-center">
+            <b-col sm="2"><label><strong>category</strong></label></b-col>
+            <b-col sm="5"><b-form-input placeholder="Category" type="text" v-model="category" /></b-col>
+        </b-row>
+
         <b-row class="justify-content-center"><b-col><b-button class="button-color-transition" :variant="buttonVariant"
                     @click="addFodd">{{ buttonText }}</b-button></b-col></b-row>
     </b-container>
@@ -93,7 +106,4 @@ export default defineComponent({
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-
-</style>
+<style scoped></style>
