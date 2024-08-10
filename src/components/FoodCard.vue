@@ -21,7 +21,7 @@
                     <b-button variant="warning mx-1" @click="incrementQty">+</b-button>
                 </b-col>
                 <b-col cols="3"><b-button :variant="buttonVariant" class="button-color-transition" @click="orderFood">{{
-                        buttonText }}</b-button></b-col>
+                    buttonText }}</b-button></b-col>
             </b-row>
 
             <b-row><span>store:{{ food.store ?? "store" }}</span></b-row>
