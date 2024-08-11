@@ -6,7 +6,7 @@ export async function login(username: string, password: string) {
         password
     })
 
-    
+
 }
 
 
@@ -15,4 +15,9 @@ export async function signup(username: string, password: string) {
         username,
         password
     })
+}
+
+export async function checkToken() {
+    return http.get('/auth/check-token')
+
 }

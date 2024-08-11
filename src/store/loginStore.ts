@@ -1,6 +1,6 @@
 import { Module } from 'vuex'
 import * as authApi from "@/api/auth";
-import { RootState } from '.';
+import store, { RootState } from '.';
 
 
 export type AuthState = {
@@ -72,6 +72,20 @@ const loginStore: Module<AuthState, RootState> = {
                     console.error('Error message:', error.message);
                 }
             }
+        },
+        async checkToken({ commit }) {
+
+            const response = await authApi.checkToken();
+            console.log("check token", response.status)
+
+            // Token is OK
+            if (response.status == 200) {
+                return
+            }
+
+            // Token is expired
+            commit("clearToken")
+            commit("clearUsername")
         }
     },
     modules: {

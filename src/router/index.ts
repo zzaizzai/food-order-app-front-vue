@@ -66,7 +66,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-
+  store.dispatch("checkToken");
   store.commit('clearMsg'); // Celar All Msg
   next();
 });

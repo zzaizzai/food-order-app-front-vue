@@ -11,8 +11,8 @@
     <AlertBar :message="msg"></AlertBar>
   </div>
 
-  <button @click="clearMsg">test clear</button>
-  <button @click="addMsg">test Add</button>
+  <!-- <button @click="clearMsg">test clear</button> -->
+  <!-- <button @click="addMsg">test Add</button> -->
   <router-view />
 </template>
 
