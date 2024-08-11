@@ -38,20 +38,28 @@
 			<b-col sm="2">
 
 				<!-- Loading -->
-				<b-button v-if="isAdding" variant="success" @click="updateFood" disabled>
+				<b-button v-if="showEditButtonSpinner" variant="success" @click="updateFood" disabled>
 					<b-spinner small></b-spinner>
-					<span>Edit</span>
+					<span>Apply</span>
 				</b-button>
 
 				<!-- Default Button -->
-				<b-button v-else variant="success" @click="updateFood">Edit</b-button>
+				<b-button v-else variant="success" @click="updateFood">Apply</b-button>
 
 			</b-col>
 
+
+			<!-- Delete Button -->
 			<b-col sm="4">
 
+				<!-- Loading -->
+				<b-button v-if="showDeleteButtonSpinner" variant="danger" @click="deleteFood" disabled>
+					<b-spinner small></b-spinner>
+					<span>Delete</span>
+				</b-button>
+
 				<!-- Default Button -->
-				<b-button variant="danger" @click="deleteFood">
+				<b-button v-else variant="danger" @click="deleteFood">
 					<span>Delete</span>
 				</b-button>
 
@@ -59,12 +67,9 @@
 
 		</b-row>
 
-		<!-- Delete Button -->
-		<b-row class="justify-content-center">
-
-		</b-row>
-
 	</b-container>
+
+	<!-- Messages -->
 	<strong><span :class="msgVariant">{{ msg }}</span></strong>
 </template>
 
@@ -78,7 +83,8 @@ export default defineComponent({
 	name: "FoodAddView",
 	data() {
 		return {
-			isAdding: false,
+			showEditButtonSpinner: false,
+			showDeleteButtonSpinner: false,
 			msg: "",
 			isMsgError: false,
 			foodId: "",
@@ -107,10 +113,17 @@ export default defineComponent({
 	},
 	methods: {
 		deleteFood(): void {
-			console.log("")
+			// Chose to delete this or not
 			if (confirm("Do you want to delete this food") == true) {
+				// Delete this
+				this.showDeleteButtonSpinner = true
+
+				setTimeout(() => {
+					this.showDeleteButtonSpinner = false
+				}, 2000)
 				this.msg = "ok"
 			} else {
+				// Dont delete
 				return;
 			}
 		},
@@ -134,7 +147,7 @@ export default defineComponent({
 		async updateFood(): Promise<void> {
 			// reset message
 			this.msg = "";
-			this.isAdding = false;
+			this.showEditButtonSpinner = false;
 
 			// check
 			if (this.foodData.store === "" || this.foodData.name === "" || this.foodData.category === "") {
@@ -151,7 +164,7 @@ export default defineComponent({
 				createdAt: this.foodData.createdAt,
 				description: this.foodData.description
 			};
-			this.isAdding = true;
+			this.showEditButtonSpinner = true;
 
 			try {
 				const result = await foodApi.updateOneFood(newFood);
@@ -163,8 +176,8 @@ export default defineComponent({
 
 			// Effect
 			setTimeout(() => {
-				this.isAdding = false;
-				this.msg = "Added a new Food successfully.";
+				this.showEditButtonSpinner = false;
+				this.msg = "Complete application of changes!";
 				// this.resetAllInput();
 				this.offtErrorMode();
 			}, 2000);
@@ -174,12 +187,6 @@ export default defineComponent({
 		msgVariant(): string {
 			return this.isMsgError ? "msg-error" : "";
 		},
-		// buttonVariant(): string {
-		// 	return this.isAdding ? "warning" : "success";
-		// },
-		// buttonText(): string {
-		// 	return this.isAdding ? "Editing" : "Edit";
-		// },
 	},
 });
 </script>
