@@ -75,9 +75,10 @@
 
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, render } from "vue";
 import * as foodApi from "@/api/foods";
 import { Food, FoodCreateDto } from "@/interfaces/Food";
+import store from "@/store";
 
 export default defineComponent({
 	name: "FoodAddView",
@@ -107,7 +108,6 @@ export default defineComponent({
 			};
 		} catch (error) {
 			console.log(error);
-			this.onErrorMode()
 			this.msg = "Failed to get Food Information";
 		}
 	},
@@ -120,18 +120,16 @@ export default defineComponent({
 
 				setTimeout(() => {
 					this.showDeleteButtonSpinner = false
+					// foodApi.deleteOneFood(this.foodData)
+					this.$router.push('/food')
 				}, 2000)
-				this.msg = "ok"
 			} else {
 				// Dont delete
 				return;
 			}
 		},
-		onErrorMode(): void {
-			this.isMsgError = true
-		},
-		offtErrorMode(): void {
-			this.isMsgError = false
+		showMessage({ type, msg }: { type: string, msg: string }): void {
+			store.dispatch("addMsg", { msg: msg, type: type })
 		},
 		getFoodInformation(foodId: number) {
 			const food = foodApi.getOneFood(foodId);
@@ -177,9 +175,7 @@ export default defineComponent({
 			// Effect
 			setTimeout(() => {
 				this.showEditButtonSpinner = false;
-				this.msg = "Complete application of changes!";
-				// this.resetAllInput();
-				this.offtErrorMode();
+				this.showMessage({type: "success", msg: "Completed to Edit Post!"})
 			}, 2000);
 		},
 	},

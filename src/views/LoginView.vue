@@ -2,9 +2,6 @@
   <b-row>
     <div>LoginPage</div>
   </b-row>
-  <b-row><b-col><input type="text" v-model="username" /></b-col></b-row>
-  <b-row><b-col><input type="text" v-model="password" /></b-col></b-row>
-  <b-row><b-col><b-button variant="success" @click="login">Login</b-button></b-col></b-row>
 
   <br>
   <div v-if="isLoggedIn">
@@ -13,7 +10,15 @@
     </div>
     <b-button variant="danger" @click="logout">Logout</b-button>
   </div>
-  <div v-else>You are not logged in.</div>
+  <div v-else>
+    <b-row><b-col><input type="text" v-model="username" /></b-col></b-row>
+    <b-row><b-col><input type="text" v-model="password" /></b-col></b-row>
+    <b-row><b-col><b-button variant="success" @click="login">Login</b-button></b-col></b-row>
+    <div>
+      You are not logged in.
+    </div>
+
+  </div>
 
 </template>
 

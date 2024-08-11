@@ -17,3 +17,8 @@ export async function addFood(foodCreateDto: FoodCreateDto): Promise<AxiosRespon
 export async function updateOneFood(food: Food) {
     return http.patch(`/foods/${food.id}`, food)
 }
+
+export async function deleteOneFood(food: Food) {
+    return http.delete(`/foods/${food.id}`)
+    
+}

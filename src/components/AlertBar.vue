@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-row>
-            <div class="alert-bar" v-if="showAlert">
+            <div :class="`mb-3 alert-bar alert-${message.type}`" v-if="showAlert">
                 <div class="alert-message"><strong>{{ message.type }}</strong>
                     {{ message.msg }}</div>
                 <button class="close-button" @click="hide">X</button>
@@ -44,7 +44,6 @@ export default defineComponent({
     position: relative;
     padding: 16px;
     margin: 0 auto;
-    margin-top: 4px;
     max-width: 800px;
     border-radius: 8px;
     background-color: #f8d7da;
