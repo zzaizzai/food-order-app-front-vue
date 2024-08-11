@@ -75,17 +75,20 @@ const loginStore: Module<AuthState, RootState> = {
         },
         async checkToken({ commit }) {
 
-            const response = await authApi.checkToken();
-            console.log("check token", response.status)
+            try {
+                const response = await authApi.checkToken();
+                console.log("check token", response.status)
 
-            // Token is OK
-            if (response.status == 200) {
-                return
+                // Token is OK
+                if (response.status == 200) {
+                    return
+                }
+            } catch (error) {
+                
+                // Token is expired
+                commit("clearToken")
+                commit("clearUsername")
             }
-
-            // Token is expired
-            commit("clearToken")
-            commit("clearUsername")
         }
     },
     modules: {
