@@ -6,8 +6,51 @@
     <router-link to="/food">Food</router-link> |
     <router-link to="/orders">Orders</router-link>
   </nav>
+  <!-- Alert Messages -->
+  <div v-for="msg in msgList" :key="msg">
+    <AlertBar :message="msg"></AlertBar>
+  </div>
+
+  <button @click="clearMsg">test clear</button>
+  <button @click="addMsg">test Add</button>
   <router-view />
 </template>
+
+<script lang="ts">
+import AlertBar from "./components/AlertBar.vue";
+import { defineComponent } from "vue";
+import store from "@/store";
+
+export default defineComponent({
+  components: { AlertBar },
+  data() {
+    return {
+      msg: "msgaa"
+    }
+  },
+  computed: {
+    msgList() {
+      return store.getters.getMsgList;
+    },
+    isLoggedIn() {
+      return store.getters.isAuthenticated;
+    }
+    ,
+    usernameLoggedIn() {
+      return store.getters.getUsername
+    }
+
+  },
+  methods: {
+    clearMsg() {
+      store.dispatch('clearMsg')
+    },
+    addMsg() {
+      store.dispatch('addMsg', { type: "test", msg: "good" })
+    }
+  }
+})
+</script>
 
 <style>
 #app {

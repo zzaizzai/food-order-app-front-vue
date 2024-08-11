@@ -7,7 +7,7 @@ import SignUpView from '@/views/SignUpView.vue'
 import MyPageView from '@/views/MyPageView.vue'
 import FoodAddView from '@/views/Food/FoodAddView.vue'
 import FoodEditView from '@/views/Food/FoodEditView.vue'
-
+import store from '@/store'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -64,5 +64,12 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+
+  store.commit('clearMsg'); // Celar All Msg
+  next();
+});
+
 
 export default router
