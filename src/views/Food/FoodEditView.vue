@@ -112,16 +112,21 @@ export default defineComponent({
 		}
 	},
 	methods: {
-		deleteFood(): void {
+		async deleteFood(): Promise<void> {
 			// Chose to delete this or not
 			if (confirm("Do you want to delete this food") == true) {
 				// Delete this
 				this.showDeleteButtonSpinner = true
 
-				setTimeout(() => {
+				setTimeout(async () => {
 					this.showDeleteButtonSpinner = false
-					// foodApi.deleteOneFood(this.foodData)
-					this.$router.push('/food')
+					try {
+						const aa = await foodApi.deleteOneFood(this.foodData)
+						this.$router.push('/food')
+					} catch (error) {
+						this.showMessage({ type: "error", msg: "Failed to Delete" })
+						console.log(error)
+					}
 				}, 2000)
 			} else {
 				// Dont delete
@@ -175,7 +180,7 @@ export default defineComponent({
 			// Effect
 			setTimeout(() => {
 				this.showEditButtonSpinner = false;
-				this.showMessage({type: "success", msg: "Completed to Edit Post!"})
+				this.showMessage({ type: "success", msg: "Completed to Edit Post!" })
 			}, 2000);
 		},
 	},
