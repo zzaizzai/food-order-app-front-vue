@@ -19,7 +19,7 @@ export default defineComponent({
     name: 'AlertBar',
     props: {
         message: {
-            type: Object as () => Message[],
+            type: Object as () => Message,
             required: true
         },
     },
