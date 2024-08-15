@@ -35,6 +35,7 @@
 import { defineComponent } from "vue";
 import * as foodApi from "@/api/foods";
 import { FoodCreateDto } from "@/interfaces/Food";
+import { sleep } from "@/utils/times";
 
 export default defineComponent({
     name: "FoodAddView",
@@ -85,11 +86,12 @@ export default defineComponent({
             }
 
             // Effect
-            setTimeout(() => {
-                this.isAdding = false;
-                this.msg = "Added a new Food successfully.";
-                this.resetAllInput()
-            }, 2000);
+            await sleep(2)
+
+            this.isAdding = false;
+            this.msg = "Added a new Food successfully.";
+            this.resetAllInput()
+
         },
     },
     computed: {

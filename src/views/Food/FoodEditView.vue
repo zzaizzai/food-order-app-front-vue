@@ -79,6 +79,7 @@ import { defineComponent, render } from "vue";
 import * as foodApi from "@/api/foods";
 import { Food, FoodCreateDto } from "@/interfaces/Food";
 import store from "@/store";
+import { sleep } from "@/utils/times";
 
 export default defineComponent({
 	name: "FoodAddView",
@@ -116,18 +117,18 @@ export default defineComponent({
 			// Chose to delete this or not
 			if (confirm("Do you want to delete this food") == true) {
 				// Delete this
-				this.showDeleteButtonSpinner = true
 
-				setTimeout(async () => {
-					this.showDeleteButtonSpinner = false
-					try {
-						const aa = await foodApi.deleteOneFood(this.foodData)
-						this.$router.push('/food')
-					} catch (error) {
-						this.showMessage({ type: "error", msg: "Failed to Delete" })
-						console.log(error)
-					}
-				}, 2000)
+				this.showDeleteButtonSpinner = true
+				await sleep(2)
+				this.showDeleteButtonSpinner = false
+				
+				try {
+					const aa = await foodApi.deleteOneFood(this.foodData)
+					this.$router.push('/food')
+				} catch (error) {
+					this.showMessage({ type: "error", msg: "Failed to Delete" })
+					console.log(error)
+				}
 			} else {
 				// Dont delete
 				return;
