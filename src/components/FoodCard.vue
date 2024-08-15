@@ -39,6 +39,7 @@
 import { defineComponent } from "vue";
 import { Food } from "@/interfaces/Food";
 import * as apiOrders from "@/api/orders";
+import { sleep } from "@/utils/times";
 
 export default defineComponent({
     name: "FoodCard",
@@ -77,7 +78,7 @@ export default defineComponent({
 
             const order = {
                 foodId: this.food.id,
-                userId: 6,
+                // userId: 6,
                 quantity: this.qty,
                 totalPrice: this.totalPrice,
             };
@@ -89,21 +90,20 @@ export default defineComponent({
                 console.error("Error while sending order data:", error);
                 this.msgCard = "Error !!!";
 
-                setTimeout(() => {
-                    this.msgCard = ""
-                    this.isOrdering = false
-                }, 2000);
+                await sleep(2)
+                this.msgCard = ""
+                this.isOrdering = false
+
                 return;
             }
 
-            setTimeout(() => {
-                this.qty = 1;
-                this.isOrdering = false;
-                this.msgCard = "Done!!";
-                setTimeout(() => {
-                    this.msgCard = "";
-                }, 2000);
-            }, 2000);
+            await sleep(2)
+            this.qty = 1;
+            this.isOrdering = false;
+            this.msgCard = "Done!!";
+
+            await sleep(2)
+            this.msgCard = "";
         },
     },
     computed: {
