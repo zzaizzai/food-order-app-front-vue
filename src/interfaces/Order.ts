@@ -19,7 +19,7 @@ export interface OrderTable extends OrderBase {
 
 export interface OrderCreateDto {
     foodId: number
-    userId: number
+    // userId: number
     quantity: number
     totalPrice: number
 }
