@@ -1,22 +1,22 @@
 import axios from "axios";
 import store from "@/store";
 
-
+const apiUrl = process.env.VUE_APP_API_URL;
+console.log("API URL: ", apiUrl);
 // dynamic config
 const host = window.location.host;
 
 const instance = axios.create({
-    baseURL: `http://${host}/api`,
+    baseURL: apiUrl,
     headers: {
         'Content-Type': 'application/json'
     }
 })
 
-
+// jwt Token
 instance.interceptors.request.use(config => {
     const token = store.state.loginStore.accessToken;
-    console.log("store")
-    console.log(token)
+
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
