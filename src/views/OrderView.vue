@@ -3,7 +3,9 @@
         <h2><strong>History View</strong></h2>
     </div>
     <div class="container order-list-layout mx-auto">
+        <!-- <b-table striped hover :items="formattedOrderList" :fields="fields"> -->
         <b-table striped hover :items="formattedOrderList" :fields="fields">
+
             ddaaa
         </b-table>
         <div v-for="(order, index) in orderList" cols="12" md="6" :key="index"></div>
@@ -24,8 +26,10 @@ export default defineComponent({
                 { key: "foodName", label: "Food Name" },
                 { key: "status", label: "Status" },
                 { key: "quantity", label: "Quantity" },
-                { key: "totalPrice", label: "Total Price ($)" },
+                { key: "formattedTotalPrice", label: "Total Price ($)" },
                 { key: "createdAt", label: "createdAt" },
+                { key: "test", label: "Check" }
+
             ],
             formattedOrderList: [] as OrderTable[],
             orderList: [
@@ -61,21 +65,22 @@ export default defineComponent({
         async fetchOrderList() {
             try {
                 const response = await apiOrders.getOrdersAll();
-                console.log(response.data);
-                this.orderList = response.data;
-
+                // this.orderList = response.data;
                 const orders = response.data;
+
                 orders.forEach((order: Order) => {
+                    const { id, status, quantity, totalPrice, createdAt, food } = order 
                     this.formattedOrderList.push({
-                        id: order.id,
-                        foodName: order.food?.name || "food name",
-                        status: order.status || "status",
-                        quantity: order.quantity || 0,
-                        totalPrice: order.totalPrice || 0,
-                        createdAt: formatDisplayDate(order.createdAt) || "no date",
+                        id,
+                        status,
+                        foodName: food?.name || "food name",
+                        quantity,
+                        totalPrice,
+                        formattedTotalPrice: totalPrice.toLocaleString(),
+                        createdAt: formatDisplayDate(createdAt) || "no date",
                     });
                 });
-            } catch (error) {
+            } catch (error: unknown) {
                 console.log(error);
             }
         },
@@ -87,6 +92,6 @@ export default defineComponent({
 <style scoped>
 .order-list-layout {
     justify-content: center;
-    width: 700px;
+    width: 900px;
 }
 </style>

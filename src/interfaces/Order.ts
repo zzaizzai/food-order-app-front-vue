@@ -15,6 +15,7 @@ export interface Order extends OrderBase {
 export interface OrderTable extends OrderBase {
     foodName: string
     createdAt: string
+    formattedTotalPrice: string
 }
 
 export interface OrderCreateDto {
