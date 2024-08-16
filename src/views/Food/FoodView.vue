@@ -1,8 +1,16 @@
 <template>
     <div>
-        <h2><strong>Its food view</strong></h2>
-        <b-button href="/foodadd">Add Food</b-button>
+        <h2>
+            <strong>Food List View</strong>
+
+            <!-- Add Food Button -->
+            <b-button variant="primary" class="plus-button mx-4" href="/foodadd">+</b-button>
+        </h2>
+
+
     </div>
+
+    <!-- Food Card List -->
     <div class="food-list-layout mx-auto">
         <b-row class="">
             <b-col v-for="food in foodList" cols="12" md="6" :key="food.id">
@@ -113,6 +121,30 @@ export default defineComponent({
 
 
 <style scoped>
+.plus-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: #3498db;
+    border-radius: 50%;
+    font-size: 24px;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.plus-button:hover {
+    background-color: #2980b9;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.plus-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
+}
+
 .food-list-layout {
     justify-content: center;
     width: 700px;

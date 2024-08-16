@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2><strong>Its History view</strong></h2>
+    <h2><strong>History View</strong></h2>
   </div>
   <div class="container order-list-layout mx-auto">
     <b-table striped hover :items="formattedOrderList" :fields="fields">
