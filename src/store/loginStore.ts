@@ -47,15 +47,19 @@ const loginStore: Module<AuthState, RootState> = {
                 commit('setToken', accessToken);
                 commit('setUsername', username);
             } catch (error: any) {
-                if (error.response) {
-                    console.error('Error response data:', error.response.data);
-                    console.error('Error response status:', error.response.status);
-                    console.error('Error response headers:', error.response.headers);
-                } else if (error.request) {
-                    console.error('Error request:', error.request);
-                } else {
-                    console.error('Error message:', error.message);
+                
+                if (error instanceof AxiosError) {
+                    throw error
                 }
+                // if (error.response) {
+                //     console.error('Error response data:', error.response.data);
+                //     console.error('Error response status:', error.response.status);
+                //     console.error('Error response headers:', error.response.headers);
+                // } else if (error.request) {
+                //     console.error('Error request:', error.request);
+                // } else {
+                //     console.error('Error message:', error.message);
+                // }
                 // Handle login errors (e.g., dispatch separate action for error handling)
             }
         },
@@ -66,13 +70,7 @@ const loginStore: Module<AuthState, RootState> = {
             console.log('clear Username')
         },
         signup({ commit }, { username, password }) {
-            try {
-                const res = authApi.signup(username, password)
-            } catch (error: any) {
-                if (error.response) {
-                    console.error('Error message:', error.message);
-                }
-            }
+            return authApi.signup(username, password)
         },
         async checkToken({ commit }) {
 

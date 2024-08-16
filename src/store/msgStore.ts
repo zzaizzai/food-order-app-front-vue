@@ -21,7 +21,6 @@ const msgStore: Module<MsgState, RootState> = {
         addMsg(state, msg: Message) {
             const msgListTemp = [...state.msgList, msg]
             state.msgList = msgListTemp
-            console.log(msgListTemp)
         },
         clearMsg(state) {
             state.msgList = []
