@@ -66,14 +66,11 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+
   store.commit('clearMsg'); // Celar All Msg
-  
-  store.dispatch("checkToken").then(() => {
-    next();
-  }).catch(error => {
-    console.log(error)
-    next('/login')
-  });
+  store.dispatch("checkToken")
+  next();
+
 });
 
 

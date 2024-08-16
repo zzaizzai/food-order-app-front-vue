@@ -1,6 +1,7 @@
 import { Module } from 'vuex'
 import * as authApi from "@/api/auth";
 import store, { RootState } from '.';
+import { AxiosError } from 'axios';
 
 
 export type AuthState = {
@@ -83,11 +84,16 @@ const loginStore: Module<AuthState, RootState> = {
                 if (response.status == 200) {
                     return
                 }
-            } catch (error) {
-                
-                // Token is expired
-                commit("clearToken")
-                commit("clearUsername")
+            } catch (error: unknown) {
+                if (error instanceof AxiosError) {
+                    const data = error.response?.data
+                    if (data.message === "Unauthorized") {
+                        console.log(data)
+                        // Token is expired
+                        commit("clearToken")
+                        commit("clearUsername")
+                    }
+                }
             }
         }
     },
