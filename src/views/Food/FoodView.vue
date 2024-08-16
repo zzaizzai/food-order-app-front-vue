@@ -10,6 +10,13 @@
 
     </div>
 
+    <!-- Search Bar -->
+    <div>
+        <input type="text">
+        <button>Search</button>
+    </div>
+
+
     <!-- Food Card List -->
     <div class="food-list-layout mx-auto">
         <b-row class="">
