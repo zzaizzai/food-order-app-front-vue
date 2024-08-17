@@ -19,12 +19,10 @@
 
     <b-row class="justify-content-center">
       <b-col sm="2"><label><strong>password</strong></label></b-col>
-      <b-col sm="4"><b-form-input placeholder="password" type="text" v-model="password" /></b-col>
+      <b-col sm="4"><b-form-input placeholder="password" type="text" v-model="password" @keyup.enter="login" /></b-col>
     </b-row>
 
-    <b-row><b-col><b-button variant="success" @click="login">Login</b-button></b-col></b-row>
-    <div>
-    </div>
+    <b-row class="my-2"><b-col><b-button variant="success" @click="login">Login</b-button></b-col></b-row>
 
 
     <a href="/signup"><strong>go to sign up page</strong></a>
@@ -58,11 +56,14 @@ export default defineComponent({
 
   },
   methods: {
-    showMessage({ type, msg }: Message): void {
+    showAlertBar({ type, msg }: Message): void {
       store.dispatch("addMsg", { msg, type })
     },
-
+    clearAlertBar(): void {
+      store.dispatch("clearMsg")
+    },
     async login() {
+      this.clearAlertBar()
       try {
         const res = await store.dispatch("login", {
           username: this.username,
@@ -72,8 +73,13 @@ export default defineComponent({
         if (error instanceof AxiosError) {
           const res = error.response
 
+          if (res?.status === 400) {
+            this.showAlertBar({ type: "error", msg: "Bad Request!" })
+          }
+
+          // wrong password
           if (res?.status === 401) {
-            this.showMessage({ type: "error", msg: "password wrong!" })
+            this.showAlertBar({ type: "error", msg: "password wrong!" })
           }
         }
       }

@@ -47,20 +47,10 @@ const loginStore: Module<AuthState, RootState> = {
                 commit('setToken', accessToken);
                 commit('setUsername', username);
             } catch (error: any) {
-                
+
                 if (error instanceof AxiosError) {
                     throw error
                 }
-                // if (error.response) {
-                //     console.error('Error response data:', error.response.data);
-                //     console.error('Error response status:', error.response.status);
-                //     console.error('Error response headers:', error.response.headers);
-                // } else if (error.request) {
-                //     console.error('Error request:', error.request);
-                // } else {
-                //     console.error('Error message:', error.message);
-                // }
-                // Handle login errors (e.g., dispatch separate action for error handling)
             }
         },
         logout({ commit }) {
@@ -84,10 +74,10 @@ const loginStore: Module<AuthState, RootState> = {
                 }
             } catch (error: unknown) {
                 if (error instanceof AxiosError) {
-                    const data = error.response?.data
-                    if (data.message === "Unauthorized") {
-                        console.log(data)
-                        // Token is expired
+                    console.log(error.response)
+
+                    // Token is expired
+                    if (error.response?.status === 401) {
                         commit("clearToken")
                         commit("clearUsername")
                     }
