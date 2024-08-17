@@ -6,8 +6,13 @@ export async function getFoods(take: number, lastId: number): Promise<AxiosRespo
     return http.get(`/foods/getSome?take=${take}&lastId=${lastId}`)
 }
 
+export async function getFoodsWithSearchKey(take: number, lastId: number, searchKey: string) {
+    return http.get(`/foods/getSomeWithSearchKey?take=${take}&lastId=${lastId}&searchKey=${searchKey}`)
+
+}
+
 export async function getOneFood(foodId: number): Promise<AxiosResponse<any, any>> {
-    return http.get(`/foods/getone/${foodId}`)    
+    return http.get(`/foods/getone/${foodId}`)
 }
 
 export async function addFood(foodCreateDto: FoodCreateDto): Promise<AxiosResponse<any, any>> {
@@ -20,5 +25,5 @@ export async function updateOneFood(food: Food) {
 
 export async function deleteOneFood(food: Food) {
     return http.delete(`/foods/${food.id}`)
-    
+
 }

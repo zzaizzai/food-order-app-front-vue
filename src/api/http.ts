@@ -3,8 +3,6 @@ import store from "@/store";
 
 const apiUrl = process.env.VUE_APP_API_URL;
 console.log("API URL: ", apiUrl);
-// dynamic config
-const host = window.location.host;
 
 const instance = axios.create({
     baseURL: apiUrl,

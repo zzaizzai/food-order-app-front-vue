@@ -12,7 +12,7 @@
 
     <!-- Search Bar -->
     <div>
-        <input type="text">
+        <input type="text" v-model="searchKeyword" @keyup.enter="searchFoods">
         <button>Search</button>
     </div>
 
@@ -64,6 +64,7 @@ export default defineComponent({
                 //   description: "raw fish",
                 // },
             ] as Food[],
+            searchKeyword: "" as string
         };
     },
     components: { FoodCard },
@@ -71,6 +72,23 @@ export default defineComponent({
         this.fetchFoodList();
     },
     methods: {
+        async searchFoods() {
+            const SEARCH_RESULTS_NUMBERS = 20
+
+            // no search key
+            if (this.searchKeyword === "") {
+                this.fetchFoodList()
+                return
+            }
+
+            // reset
+            this.foodOldestId = -1
+
+            const res = await apiFoods.getFoodsWithSearchKey(SEARCH_RESULTS_NUMBERS, this.foodOldestId, this.searchKeyword)
+            const foods = res.data
+            this.foodList = foods
+
+        },
         async fetchFoodList() {
             try {
                 const response = await apiFoods.getFoods(6, this.foodOldestId);
