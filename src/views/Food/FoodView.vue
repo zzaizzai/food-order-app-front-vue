@@ -6,8 +6,6 @@
             <!-- Add Food Button -->
             <b-button variant="primary" class="plus-button mx-4" href="/foodadd">+</b-button>
         </h2>
-
-
     </div>
 
     <!-- Search Bar -->
@@ -26,7 +24,26 @@
         </b-row>
     </div>
 
-    <b-button @click="updateFoods">get more</b-button>
+
+    <!-- More Foods Button -->
+
+    <!-- InActive -->
+    <b-button v-if="hasNoMoreFoods" disabled>
+        <span>Get More</span>
+    </b-button>
+
+    <!-- Loading -->
+    <b-button v-else-if="showMoreButtonSpinner" disabled>
+        <b-spinner small></b-spinner>
+        <span>Get More</span>
+    </b-button>
+
+    <!--Default Button  -->
+    <b-button v-else @click="fetchMoreFoodList">
+        <span>Get More</span>
+    </b-button>
+
+
     {{ foodOldestId }}
 </template>
 
@@ -35,6 +52,7 @@ import { defineComponent } from "vue";
 import FoodCard from "@/components/FoodCard.vue"; // @ is an alias to /src
 import * as apiFoods from "@/api/foods";
 import { Food } from "@/interfaces/Food";
+import { sleep } from "@/utils/times";
 
 export default defineComponent({
     name: "FoodView",
@@ -64,7 +82,9 @@ export default defineComponent({
                 //   description: "raw fish",
                 // },
             ] as Food[],
-            searchKeyword: "" as string
+            searchKeyword: "" as string,
+            showMoreButtonSpinner: false,
+            hasNoMoreFoods: false
         };
     },
     components: { FoodCard },
@@ -112,20 +132,26 @@ export default defineComponent({
             }
         },
 
-        async updateFoods() {
+        async fetchMoreFoodList() {
+
             // no more data
+            // DeActive Get More Button
             if (this.foodOldestId < 0) {
+                this.hasNoMoreFoods = true
                 return;
             }
 
-            try {
-                const response = await apiFoods.getFoods(6, this.foodOldestId);
-                const foods: Food[] = response.data;
+            this.showMoreButtonSpinner = true
 
-                this.foodList = [...this.foodList, ...foods];
+            try {
+                await sleep(0.5)
+                const response = await apiFoods.getFoods(6, this.foodOldestId);
+                const moreFoods: Food[] = response.data;
+
+                this.foodList = [...this.foodList, ...moreFoods];
 
                 let minValueId = -1;
-                for (let food of foods) {
+                for (let food of moreFoods) {
                     if (minValueId < 0) {
                         minValueId = food.id;
                         continue;
@@ -136,8 +162,17 @@ export default defineComponent({
                     minValueId = food.id;
                 }
                 this.foodOldestId = minValueId;
+
+                // no more data
+                // DeActive Get More Button
+                if (this.foodOldestId < 0) {
+                    this.hasNoMoreFoods = true
+                }
+
             } catch (error) {
                 console.log(error);
+            } finally {
+                this.showMoreButtonSpinner = false
             }
         },
     },
