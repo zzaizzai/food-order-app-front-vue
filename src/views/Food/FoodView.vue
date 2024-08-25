@@ -53,6 +53,8 @@ import FoodCard from "@/components/FoodCard.vue"; // @ is an alias to /src
 import * as apiFoods from "@/api/foods";
 import { Food } from "@/interfaces/Food";
 import { sleep } from "@/utils/times";
+import { AxiosError } from "axios";
+import store from "@/store";
 
 export default defineComponent({
     name: "FoodView",
@@ -89,15 +91,18 @@ export default defineComponent({
     },
     components: { FoodCard },
     mounted() {
-        this.fetchFoodList();
+        this.fetchInitFoodList();
     },
     methods: {
+        showMessage({ type, msg }: { type: string, msg: string }): void {
+            store.dispatch("addMsg", { msg: msg, type: type })
+        },
         async searchFoods() {
             const SEARCH_RESULTS_NUMBERS = 20
 
             // no search key
             if (this.searchKeyword === "") {
-                this.fetchFoodList()
+                this.fetchInitFoodList()
                 return
             }
 
@@ -109,7 +114,7 @@ export default defineComponent({
             this.foodList = foods
 
         },
-        async fetchFoodList() {
+        async fetchInitFoodList() {
             try {
                 const response = await apiFoods.getFoods(6, this.foodOldestId);
                 const foods = response.data;
@@ -128,7 +133,18 @@ export default defineComponent({
                 }
                 this.foodOldestId = minValueId;
             } catch (error) {
-                console.log(error);
+
+                if (error instanceof AxiosError) {
+
+                    if (error.response?.statusText) {
+                        this.showMessage({ type: "error", msg: error.response?.statusText })
+                        return
+                    }
+
+                    // Unkown Error
+                    this.showMessage({ type: "error", msg: "Unkown Error!" })
+
+                }
             }
         },
 

@@ -28,8 +28,8 @@ const msgStore: Module<MsgState, RootState> = {
     },
     actions: {
         addMsg({ commit }, { type, msg }) {
-            const msgTemp: Message = { type: type, msg: msg }
-            commit('addMsg', msgTemp)
+            const addMsg: Message = { type: type, msg: msg }
+            commit('addMsg', addMsg)
         },
         clearMsg({ commit }) {
             commit('clearMsg')

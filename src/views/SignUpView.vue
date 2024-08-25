@@ -77,12 +77,17 @@ export default defineComponent({
                     // Conflict!
                     if (error.response?.status === 409) {
                         this.showMessage({ type: "error", msg: "User Name Alerady Exists" })
+                        return
                     }
 
                     // Somthing Bad Request!
                     if (error.response?.status === 400) {
                         this.showMessage({ type: "error", msg: "Bad Request!" })
+                        return
                     }
+
+                    // Unknwon Error!
+                    this.showMessage({type:"error", msg:"Unknown Error!"})
                 }
             }
 

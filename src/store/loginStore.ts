@@ -46,8 +46,7 @@ const loginStore: Module<AuthState, RootState> = {
                 console.log("accessToken:", accessToken)
                 commit('setToken', accessToken);
                 commit('setUsername', username);
-            } catch (error: any) {
-
+            } catch (error: unknown) {
                 if (error instanceof AxiosError) {
                     throw error
                 }

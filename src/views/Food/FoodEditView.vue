@@ -80,6 +80,7 @@ import * as foodApi from "@/api/foods";
 import { Food, FoodCreateDto } from "@/interfaces/Food";
 import store from "@/store";
 import { sleep } from "@/utils/times";
+import { AxiosResponse } from "axios";
 
 export default defineComponent({
 	name: "FoodAddView",
@@ -97,16 +98,8 @@ export default defineComponent({
 		this.foodId = String(this.$route.query.foodId);
 		try {
 			const result = await this.getFoodInformation(Number(this.foodId));
-			const data = result.data;
-			this.foodData = {
-				category: data.category,
-				id: data.id,
-				name: data.name,
-				price: data.price,
-				store: data.store,
-				description: data.description,
-				createdAt: data.createdAt,
-			};
+			const { data } = result;
+			this.foodData = data
 		} catch (error) {
 			console.log(error);
 			this.msg = "Failed to get Food Information";
@@ -121,7 +114,7 @@ export default defineComponent({
 				this.showDeleteButtonSpinner = true
 				await sleep(2)
 				this.showDeleteButtonSpinner = false
-				
+
 				try {
 					const aa = await foodApi.deleteOneFood(this.foodData)
 					this.$router.push('/food')
@@ -137,17 +130,18 @@ export default defineComponent({
 		showMessage({ type, msg }: { type: string, msg: string }): void {
 			store.dispatch("addMsg", { msg: msg, type: type })
 		},
-		getFoodInformation(foodId: number) {
-			const food = foodApi.getOneFood(foodId);
-			return food;
+
+		getFoodInformation(foodId: number): Promise<AxiosResponse<Food, any>> {
+			return foodApi.getOneFood(foodId);
 		},
+
 		resetAllInput(): void {
 			this.foodData.name = "";
 			this.foodData.store = "";
 			this.foodData.category = "";
 			this.foodData.price = 0;
 		},
-
+		
 		async updateFood(): Promise<void> {
 			// reset message
 			this.msg = "";
