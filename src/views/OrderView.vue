@@ -17,6 +17,9 @@ import { defineComponent } from "vue";
 import * as apiOrders from "@/api/orders";
 import { Order, OrderTable } from "@/interfaces/Order";
 import { formatDisplayDate } from "@/utils/formatDate";
+import store from "@/store";
+import { Message } from "@/interfaces/Message";
+import { AxiosError } from "axios";
 export default defineComponent({
     name: "FoodView",
     data() {
@@ -61,15 +64,18 @@ export default defineComponent({
     mounted() {
         this.fetchOrderList();
     },
+
     methods: {
+        showMessage({ type, msg }: Message): void {
+            store.dispatch("addMsg", { msg, type })
+        },
         async fetchOrderList() {
             try {
                 const response = await apiOrders.getOrdersAll();
-                // this.orderList = response.data;
                 const orders = response.data;
 
                 orders.forEach((order: Order) => {
-                    const { id, status, quantity, totalPrice, createdAt, food } = order 
+                    const { id, status, quantity, totalPrice, createdAt, food } = order
                     this.formattedOrderList.push({
                         id,
                         status,
@@ -81,7 +87,19 @@ export default defineComponent({
                     });
                 });
             } catch (error: unknown) {
-                console.log(error);
+                
+                if (error instanceof AxiosError) {
+                    if (error.response?.statusText) {
+                        this.showMessage({ type: "error", msg: error.response?.statusText })
+                        return
+                    }
+
+                    // Unknown Error
+                    this.showMessage({ type: "error", msg: "Unknown Erorr" })
+                    return
+
+                }
+
             }
         },
     },

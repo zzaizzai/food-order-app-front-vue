@@ -81,6 +81,7 @@ import { Food, FoodCreateDto } from "@/interfaces/Food";
 import store from "@/store";
 import { sleep } from "@/utils/times";
 import { AxiosResponse } from "axios";
+import { Message } from "@/interfaces/Message";
 
 export default defineComponent({
 	name: "FoodAddView",
@@ -127,8 +128,8 @@ export default defineComponent({
 				return;
 			}
 		},
-		showMessage({ type, msg }: { type: string, msg: string }): void {
-			store.dispatch("addMsg", { msg: msg, type: type })
+		showMessage({ type, msg }: Message): void {
+			store.dispatch("addMsg", { msg, type })
 		},
 
 		getFoodInformation(foodId: number): Promise<AxiosResponse<Food, any>> {
@@ -141,7 +142,7 @@ export default defineComponent({
 			this.foodData.category = "";
 			this.foodData.price = 0;
 		},
-		
+
 		async updateFood(): Promise<void> {
 			// reset message
 			this.msg = "";

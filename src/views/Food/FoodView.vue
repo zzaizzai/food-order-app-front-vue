@@ -55,6 +55,7 @@ import { Food } from "@/interfaces/Food";
 import { sleep } from "@/utils/times";
 import { AxiosError } from "axios";
 import store from "@/store";
+import { Message } from "@/interfaces/Message";
 
 export default defineComponent({
     name: "FoodView",
@@ -94,8 +95,8 @@ export default defineComponent({
         this.fetchInitFoodList();
     },
     methods: {
-        showMessage({ type, msg }: { type: string, msg: string }): void {
-            store.dispatch("addMsg", { msg: msg, type: type })
+        showMessage({ type, msg }: Message): void {
+            store.dispatch("addMsg", { msg, type })
         },
         async searchFoods() {
             const SEARCH_RESULTS_NUMBERS = 20
@@ -141,8 +142,9 @@ export default defineComponent({
                         return
                     }
 
-                    // Unkown Error
-                    this.showMessage({ type: "error", msg: "Unkown Error!" })
+                    // Unknown Error
+                    this.showMessage({ type: "error", msg: "Unknown Error!" })
+                    return
 
                 }
             }
