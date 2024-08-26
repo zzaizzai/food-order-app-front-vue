@@ -1,7 +1,8 @@
 import { Module } from 'vuex'
 import * as authApi from "@/api/auth";
 import store, { RootState } from '.';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
+import { LogInInfo } from '@/interfaces/Auth';
 
 
 export type AuthState = {
@@ -16,10 +17,10 @@ const loginStore: Module<AuthState, RootState> = {
         username: null
     },
     getters: {
-        isAuthenticated(state) {
+        isAuthenticated(state): boolean {
             return state.accessToken !== null;
         },
-        getUsername(state) {
+        getUsername(state): string | null {
             return state.username
         }
     },
@@ -39,7 +40,7 @@ const loginStore: Module<AuthState, RootState> = {
     },
     actions: {
         // Consider creating a separate login action for reusability
-        async login({ commit }, { username, password }) {
+        async login({ commit }, { username, password }: LogInInfo) {
             try {
                 const response = await authApi.login(username, password);
                 const accessToken = response.data.accessToken;
@@ -52,16 +53,16 @@ const loginStore: Module<AuthState, RootState> = {
                 }
             }
         },
-        logout({ commit }) {
+        logout({ commit }): void {
             commit('clearToken');
             commit('clearUsername');
             console.log('clear token')
             console.log('clear Username')
         },
-        signup({ commit }, { username, password }) {
+        signup({ commit }, { username, password }: LogInInfo): Promise<AxiosResponse<any, any>> {
             return authApi.signup(username, password)
         },
-        async checkToken({ commit }) {
+        async checkToken({ commit }): Promise<void> {
 
             try {
                 const response = await authApi.checkToken();

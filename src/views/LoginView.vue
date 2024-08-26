@@ -35,6 +35,7 @@ import { defineComponent } from "vue";
 import store from "@/store";
 import { Message } from "@/interfaces/Message";
 import { AxiosError } from "axios";
+import { LogInInfo } from "@/interfaces/Auth";
 
 export default defineComponent({
   name: "FoodView",
@@ -62,13 +63,13 @@ export default defineComponent({
     clearAlertBar(): void {
       store.dispatch("clearMsg")
     },
-    async login() {
+    async login(): Promise<any> {
       this.clearAlertBar()
+
+      const loginData: LogInInfo = { username: this.username, password: this.password } 
+
       try {
-        const res = await store.dispatch("login", {
-          username: this.username,
-          password: this.password,
-        });
+        const res = await store.dispatch("login", loginData );
       } catch (error: unknown) {
         if (error instanceof AxiosError) {
           const res = error.response
@@ -84,7 +85,7 @@ export default defineComponent({
         }
       }
     },
-    async logout() {
+    async logout(): Promise<void> {
       store.dispatch("logout");
     },
   },

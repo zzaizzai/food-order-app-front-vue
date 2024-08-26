@@ -29,19 +29,19 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import store from "@/store";
-import { SignUp } from "@/interfaces/Auth";
+import { SignUpInfo } from "@/interfaces/Auth";
 import { Message } from "@/interfaces/Message";
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 export default defineComponent({
     name: "SignUpView",
-    data() {
+    data(): any {
         return {
             signUpData: {
                 username: "",
                 password: "",
                 passwordCheck: ""
-            } as SignUp
+            } as SignUpInfo
 
         };
     },
@@ -50,7 +50,7 @@ export default defineComponent({
         showMessage({ type, msg }: Message): void {
             store.dispatch("addMsg", { msg, type })
         },
-        async signUp() {
+        async signUp(): Promise<void> {
 
             if (this.signUpData.username?.length < 4) {
                 this.showMessage({ type: "error", msg: "More than 3 characters" })
@@ -63,8 +63,8 @@ export default defineComponent({
             }
 
             try {
-                const { username, password } = this.signUpData
-                const res = await store.dispatch("signup", { username, password });
+                const { username, password }: SignUpInfo = this.signUpData
+                const res: AxiosResponse<any> = await store.dispatch("signup", { username, password });
 
                 // Created!
                 if (res.status === 201) {
