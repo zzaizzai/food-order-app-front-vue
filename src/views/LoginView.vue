@@ -1,7 +1,6 @@
 <template>
-  <b-row>
-    <div>LoginPage</div>
-  </b-row>
+  <div>
+  <h3>LoginPage</h3>
 
   <br>
   <div v-if="isLoggedIn">
@@ -26,6 +25,7 @@
 
 
     <a href="/signup"><strong>go to sign up page</strong></a>
+  </div>
   </div>
 
 </template>
