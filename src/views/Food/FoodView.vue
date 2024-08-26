@@ -29,13 +29,13 @@
 
     <!-- InActive -->
     <b-button v-if="hasNoMoreFoods" disabled>
-        <span>Get More</span>
+        <span>No More</span>
     </b-button>
 
     <!-- Loading -->
     <b-button v-else-if="showMoreButtonSpinner" disabled>
         <b-spinner small></b-spinner>
-        <span>Get More</span>
+        <span>Getting More</span>
     </b-button>
 
     <!--Default Button  -->

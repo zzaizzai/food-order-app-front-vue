@@ -44,7 +44,7 @@
                     </b-col>
 
 
-                    <b-col>
+                    <b-col class="px-0">
 
                         <div class="d-flex align-items-center">
                             <div>Qty.</div>
@@ -52,17 +52,18 @@
                         </div>
 
                         <div >
-                            <b-button variant="warning me-1" @click="decrementQty">-</b-button>
-                            <b-button variant="warning" @click="incrementQty">+</b-button>
-                            <b-button :variant="buttonVariant" class="button-color-transition" @click="orderFood">{{
-                            buttonText }}</b-button>
+                            <b-button variant="warning" @click="decrementQty">-</b-button>
+                            <b-button variant="warning me-1" @click="incrementQty">+</b-button>
                         </div>
+
+                        <div>
+                            <b-button :variant="buttonVariant" class="button-color-transition" @click="orderFood">{{ buttonText }}</b-button>
+                        </div>
+
                     </b-col>
                 </b-row>
 
             </b-row>
-
-
             <b-row>
                 <strong>Total Price: <span>{{ formattedTotalPrice }}</span>
                     <span> ({{ formattedPrice }})</span></strong></b-row>
@@ -76,6 +77,7 @@ import { defineComponent } from "vue";
 import { Food } from "@/interfaces/Food";
 import * as apiOrders from "@/api/orders";
 import { sleep } from "@/utils/times";
+import { OrderCreateDto } from "@/interfaces/Order";
 
 export default defineComponent({
     name: "FoodCard",
@@ -112,14 +114,14 @@ export default defineComponent({
 
             this.isOrdering = true;
 
-            const order = {
+            const orderCreateDto: OrderCreateDto = {
                 foodId: this.food.id,
                 quantity: this.qty,
                 totalPrice: this.totalPrice,
             };
 
             try {
-                const response = await apiOrders.addOne(order);
+                const response = await apiOrders.addOne(orderCreateDto);
                 console.log(response.data);
             } catch (error) {
                 console.error("Error while sending order data:", error);
