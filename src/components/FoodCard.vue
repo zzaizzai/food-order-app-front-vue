@@ -20,23 +20,49 @@
         </b-row>
         <b-container>
 
-            <b-row>
-                <b-col>
-                    {{ food.description ?? "Content Content Content Content Content Content Content Content Content Content" }}
-                </b-col>
+            <b-row><span><strong>Store:</strong>{{ food.store ?? "store" }}</span></b-row>
 
+            <b-row class="food description-box">
+                <b-col class="d-flex">
+                    <div>
+                        <strong class="me-2">
+                            Description:
+                        </strong>
+                        <span>
+                            {{ food.description ?? "Content Content Content Content Content Content Content Content Content Content Content"}}
+                        </span>
+                    </div>
+                </b-col>
             </b-row>
             <b-row>
-                <b-col cols="1">Qty.</b-col>
-                <b-col cols="3"><b-form-input style="width: 48px" type="number" v-model="qty" /></b-col>
-                <b-col cols="4"><b-button variant="warning mx-1" @click="decrementQty">-</b-button>
-                    <b-button variant="warning mx-1" @click="incrementQty">+</b-button>
-                </b-col>
-                <b-col cols="3"><b-button :variant="buttonVariant" class="button-color-transition" @click="orderFood">{{
-                    buttonText }}</b-button></b-col>
+
+                <b-row>
+                    <b-col>
+                        <div class="image-container">
+                            <img src="/images/foodAltImage.png" alt="">
+                        </div>
+                    </b-col>
+
+
+                    <b-col>
+
+                        <div class="d-flex align-items-center">
+                            <div>Qty.</div>
+                            <b-form-input style="width: 48px" type="number" v-model="qty" />
+                        </div>
+
+                        <div >
+                            <b-button variant="warning me-1" @click="decrementQty">-</b-button>
+                            <b-button variant="warning" @click="incrementQty">+</b-button>
+                            <b-button :variant="buttonVariant" class="button-color-transition" @click="orderFood">{{
+                            buttonText }}</b-button>
+                        </div>
+                    </b-col>
+                </b-row>
+
             </b-row>
 
-            <b-row><span>store:{{ food.store ?? "store" }}</span></b-row>
+
             <b-row>
                 <strong>Total Price: <span>{{ formattedTotalPrice }}</span>
                     <span> ({{ formattedPrice }})</span></strong></b-row>
@@ -145,6 +171,30 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
+
+.food.description-box {
+    height: 70px;
+}
+
+.image-container {
+    width: 150px;
+    /* Adjust this to your desired container width */
+    height: 130px;
+    /* Adjust this to your desired container height */
+    overflow: hidden;
+    /* This hides any part of the image that overflows the container */
+}
+
+.image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    /* Ensures the image scales while preserving its aspect ratio */
+    border-radius: 20px;
+    border: 3px solid #000;
+}
+
+
 .button-color-transition {
     transition: background-color 0.5s;
 }
@@ -157,12 +207,17 @@ input[type="number"]::-webkit-inner-spin-button {
     padding: 5px;
     background: #eee;
     border-radius: 16px;
-    height: 200px;
+    height: 300px;
     width: 350px;
+    transition: box-shadow 0.3s ease;
+    /* Smooth transition for the shadow */
 }
 
-h3 {
-    margin: 40px 0 0;
+.foodcard:hover {
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+    /* Slight shadow effect on hover */
+    background: #eee;
+
 }
 
 ul {
