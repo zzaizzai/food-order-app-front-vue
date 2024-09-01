@@ -3,15 +3,17 @@
         <h2><strong>History View</strong></h2>
     </div>
     <div class="container order-list-layout mx-auto">
-        <!-- <b-table striped hover :items="formattedOrderList" :fields="fields"> -->
         <b-table striped hover :items="formattedOrderList" :fields="fields">
-
-            ddaaa
+            <template #cell(check)="data">
+                <!-- Use the id from `orderList` via `data.item.id` -->
+                <router-link :to="{ name: 'orderDetail', query: { id: data.item.id } }">
+                    <button class="">Check</button>
+                </router-link>
+            </template>
         </b-table>
         <div v-for="(order, index) in orderList" cols="12" md="6" :key="index"></div>
     </div>
 </template>
-
 <script lang="ts">
 import { defineComponent } from "vue";
 import * as apiOrders from "@/api/orders";
@@ -20,9 +22,10 @@ import { formatDisplayDate } from "@/utils/formatDate";
 import store from "@/store";
 import { Message } from "@/interfaces/Message";
 import { AxiosError } from "axios";
+
 export default defineComponent({
     name: "FoodView",
-    data() {
+    data(): any {
         return {
             fields: [
                 { key: "id", label: "Order ID" },
@@ -31,7 +34,7 @@ export default defineComponent({
                 { key: "quantity", label: "Quantity" },
                 { key: "formattedTotalPrice", label: "Total Price ($)" },
                 { key: "createdAt", label: "createdAt" },
-                { key: "test", label: "Check" }
+                { key: "check", label: "Check" }
 
             ],
             formattedOrderList: [] as OrderTable[],

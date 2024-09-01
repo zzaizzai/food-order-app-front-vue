@@ -60,8 +60,8 @@ const routes: Array<RouteRecordRaw> = [
     component: OrderHistoryView
   },
   {
-    path: '/orderdetail',
-    name: 'orderdetail',
+    path: '/orderDetail',
+    name: 'orderDetail',
     component: OrderDetailView
   },
 ]
